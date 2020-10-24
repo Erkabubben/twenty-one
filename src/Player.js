@@ -59,7 +59,9 @@ export class Player {
     PrintHand() {
         let printString = ""
         this.hand.forEach(element => {
-            printString += element.
+            printString += element.toString() + " "
         });
+        printString += "(" + totalScore + ")"
+        return printString
     }
 }
