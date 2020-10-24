@@ -15,11 +15,11 @@ import { Player } from './Player.js'
 try {
   // Create 52 playing cards and...
   const playingCards = Deck.create()
-  console.log(playingCards.join(', '), '\n')
+  //console.log(playingCards.join(', '), '\n')
 
   // ...shuffle them.
   Deck.shuffle(playingCards)
-  console.log(playingCards.join(', '), '\n')
+  //console.log(playingCards.join(', '), '\n')
 
   // Draw three playing cards, view the remaining playing cards, the drawn playing cards and
   // then calculate the value of them.
@@ -27,10 +27,10 @@ try {
   //  the primitive value of the current PlayingCard object.)
   const hand = playingCards.splice(0, 3)
 
-  console.log(playingCards.join(', '))
+  //console.log(playingCards.join(', '))
 
   const value = hand.reduce((value, playingCard) => value + playingCard, 0)
-  console.log(`${hand.join(' ')} (${value})`)
+  //console.log(`${hand.join(' ')} (${value})`)
 } catch (e) {
   console.error(e.message)
 }
@@ -38,7 +38,7 @@ try {
 const deck = Deck.create()
 Deck.shuffle(deck)
 
-const playersAmount = 2
+const playersAmount = 10
 
 const players = []
 players.push(new Player())  // Add dealer as player 0
@@ -54,11 +54,11 @@ let currentPlayer = 1
 
 function NewDraw(player, resultString) {
   player.Draw(deck)
-  if (true || player.totalScore > 21 || player.totalScore > player.stayPutScore ) {
+  if (player.totalScore > 21 || player.totalScore > player.stayPutScore ) {
     resultString += player.PrintHand()
     console.log(resultString)
   }
-  else NewDraw(player)
+  else NewDraw(player, resultString)
 }
 
 // Player's turn

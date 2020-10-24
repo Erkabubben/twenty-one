@@ -19,7 +19,7 @@ export class Player {
     constructor() {
         this.hand = []
         this.totalScore = 0
-        this.stayPutScore = Math.random(8, 19)
+        this.stayPutScore = 8 + Math.floor(Math.random() * 11)
     }
 
     CalculateTotalScore() {
@@ -38,7 +38,7 @@ export class Player {
             }
             else testScore2 += element.valueOf()
         })
-        
+
         if (testScore1 > 21) {
             this.totalScore = testScore2
         }
