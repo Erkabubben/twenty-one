@@ -3,13 +3,14 @@
  *
  * @author Johan Leitet <johan.leitet@lnu.se>
  * @author Mats Loock <mats.loock@lnu.se>
- * @author // TODO: YOUR NAME <YOUR EMAIL>
+ * @author Erik Lindholm <elimk06@student.lnu.se>
  * @version 1.0.0
  */
 
 // TODO: Replace the code below with your own game logic.
 
 import { Deck } from './Deck.js'
+import { Player } from './Player.js'
 
 try {
   // Create 52 playing cards and...
@@ -34,12 +35,16 @@ try {
   console.error(e.message)
 }
 
+const deck = Deck.create()
+Deck.shuffle(deck)
+
 const playersAmount = 3
 
 const players = []
-players.push(new Player())
+players.push(new Player())  // Add dealer as player 0
 const dealer = players[0];
 
+// Add other players to game
 for (let index = 0; index < playersAmount; index++) {
   const element = players[index];
   players.push(new Player())
@@ -47,8 +52,8 @@ for (let index = 0; index < playersAmount; index++) {
 
 let currentPlayer = 1
 
-function NewDraw() {
-  player.Draw()
+function NewDraw(player) {
+  player.Draw(deck)
   if (player.totalScore > 21 || player.totalScore > player.stayPutScore ) {
     resultString += player.PrintHand()
     console.log(resultString)
@@ -56,11 +61,15 @@ function NewDraw() {
   else NewDraw()
 }
 
+// Player's turn
 for (let index = 1; index <= playersAmount; index++) {
   const player = players[index];
   let resultString = "Player #" + index + ": "
 
-  NewDraw()
-
+  NewDraw(player)
+  
+  // Dealers's turn
+  resultString = "Dealer #" + index + ": "
+  NewDraw(dealer)
 
 }

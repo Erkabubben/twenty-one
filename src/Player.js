@@ -26,11 +26,11 @@ export class Player {
 
         let testScore1 = 0
         let testScore2 = 0
-        hand.forEach(element => {
+        this.hand.forEach(element => {
             testScore1 += element.valueOf
         })
 
-        hand.forEach(element => {
+        this.hand.forEach(element => {
             let countedAce = false;
             if (element.valueOf === 1 && !countedAce) {
                 countedAce = true
@@ -50,10 +50,10 @@ export class Player {
         }
     }
 
-    Draw() {
-        let newCard = playingCards.splice(0, 1)
+    Draw(deck) {
+        let newCard = deck.splice(0, 1)
         this.hand.push(newCard)
-        CalculateTotalScore()
+        this.CalculateTotalScore()
     }
 
     PrintHand() {
