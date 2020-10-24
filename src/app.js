@@ -37,4 +37,18 @@ try {
 const playersAmount = 3
 
 const players = []
+players.push(new Player())
+const dealer = players[0];
 
+for (let index = 0; index < playersAmount; index++) {
+  const element = players[index];
+  players.push(new Player())
+}
+
+let currentPlayer = 1
+
+for (let index = 1; index <= playersAmount; index++) {
+  const player = players[index];
+  
+  
+}
