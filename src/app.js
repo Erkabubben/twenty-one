@@ -50,5 +50,9 @@ let currentPlayer = 1
 for (let index = 1; index <= playersAmount; index++) {
   const player = players[index];
   
-  
+  player.Draw()
+  if (player.totalScore < player.totalScore.stayPutScore) {
+    player.Draw()
+    if (player.totalScore > 21) 
+  }
 }

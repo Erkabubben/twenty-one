@@ -19,6 +19,7 @@ export class Player {
     constructor() {
         this.hand = []
         this.totalScore = 0
+        this.stayPutScore = Math.random(8, 19)
     }
 
     CalculateTotalScore() {
@@ -51,7 +52,14 @@ export class Player {
 
     Draw() {
         let newCard = playingCards.splice(0, 1)
-        hand.push(newCard)
+        this.hand.push(newCard)
         CalculateTotalScore()
+    }
+
+    PrintHand() {
+        let printString = ""
+        this.hand.forEach(element => {
+            printString += element.
+        });
     }
 }
