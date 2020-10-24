@@ -38,7 +38,7 @@ try {
 const deck = Deck.create()
 Deck.shuffle(deck)
 
-const playersAmount = 3
+const playersAmount = 2
 
 const players = []
 players.push(new Player())  // Add dealer as player 0
@@ -52,24 +52,25 @@ for (let index = 0; index < playersAmount; index++) {
 
 let currentPlayer = 1
 
-function NewDraw(player) {
+function NewDraw(player, resultString) {
   player.Draw(deck)
-  if (player.totalScore > 21 || player.totalScore > player.stayPutScore ) {
+  if (true || player.totalScore > 21 || player.totalScore > player.stayPutScore ) {
     resultString += player.PrintHand()
     console.log(resultString)
   }
-  else NewDraw()
+  else NewDraw(player)
 }
 
 // Player's turn
-for (let index = 1; index <= playersAmount; index++) {
+for (let index = 1; index < playersAmount + 1; index++) {
   const player = players[index];
   let resultString = "Player #" + index + ": "
 
-  NewDraw(player)
+  NewDraw(player, resultString)
   
   // Dealers's turn
-  resultString = "Dealer #" + index + ": "
-  NewDraw(dealer)
+  resultString = "Dealer" + ": "
+  NewDraw(dealer, resultString)
 
+  dealer.ResetHand()
 }

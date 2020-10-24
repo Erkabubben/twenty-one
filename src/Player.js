@@ -29,9 +29,9 @@ export class Player {
         this.hand.forEach(element => {
             testScore1 += element.valueOf
         })
-
+        
+        let countedAce = false;
         this.hand.forEach(element => {
-            let countedAce = false;
             if (element.valueOf === 1 && !countedAce) {
                 countedAce = true
                 testScore2 += 14
@@ -61,7 +61,12 @@ export class Player {
         this.hand.forEach(element => {
             printString += element.toString() + " "
         });
-        printString += "(" + totalScore + ")"
+        printString += "(" + this.totalScore + ")"
         return printString
+    }
+
+    ResetHand() {
+        this.hand = []
+        this.totalScore = 0
     }
 }
