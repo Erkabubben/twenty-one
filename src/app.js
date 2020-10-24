@@ -33,3 +33,8 @@ try {
 } catch (e) {
   console.error(e.message)
 }
+
+const playersAmount = 3
+
+const players = []
+
