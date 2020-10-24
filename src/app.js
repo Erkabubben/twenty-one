@@ -52,25 +52,46 @@ for (let index = 0; index < playersAmount; index++) {
 
 let currentPlayer = 1
 
-function NewDraw(player, resultString) {
-  player.Draw(deck)
-  if (player.totalScore > 21 || player.totalScore > player.stayPutScore ) {
-    resultString += player.PrintHand()
+function NewDraw(player, resultString, lastPlayerScore) {
+  if (lastPlayerScore !== 21) {
+    player.Draw(deck)
+  }
+  if (player.totalScore > 21 || player.totalScore > player.stayPutScore 
+    || player.totalScore > lastPlayerScore) {
+    if (lastPlayerScore === 21) {
+      resultString += "-"
+    }
+    else {
+      resultString += player.PrintHand()
+    }
+    lastPlayerScore = player.totalScore
     console.log(resultString)
   }
-  else NewDraw(player, resultString)
+  else NewDraw(player, resultString, lastPlayerScore)
 }
 
 // Player's turn
 for (let index = 1; index < playersAmount + 1; index++) {
   const player = players[index];
   let resultString = "Player #" + index + ": "
+  let lastPlayerScore = 1000
 
-  NewDraw(player, resultString)
+  NewDraw(player, resultString, lastPlayerScore)
   
   // Dealers's turn
   resultString = "Dealer" + ": "
-  NewDraw(dealer, resultString)
+  NewDraw(dealer, resultString, lastPlayerScore)
+
+  if (dealer.totalScore <= 21 && dealer.totalScore > player.totalScore )
+  {
+    console.log("Dealer wins!")
+  }
+  else if (player.totalScore <= 21 && player.totalScore > dealer.totalScore ) {
+    console.log("Player wins!")
+  }
+  else {
+    console.log("It's a tie!")
+  }
 
   dealer.ResetHand()
 }
