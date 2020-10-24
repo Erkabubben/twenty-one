@@ -47,12 +47,20 @@ for (let index = 0; index < playersAmount; index++) {
 
 let currentPlayer = 1
 
+function NewDraw() {
+  player.Draw()
+  if (player.totalScore > 21 || player.totalScore > player.stayPutScore ) {
+    resultString += player.PrintHand()
+    console.log(resultString)
+  }
+  else NewDraw()
+}
+
 for (let index = 1; index <= playersAmount; index++) {
   const player = players[index];
-  
-  player.Draw()
-  if (player.totalScore < player.totalScore.stayPutScore) {
-    player.Draw()
-    if (player.totalScore > 21) 
-  }
+  let resultString = "Player #" + index + ": "
+
+  NewDraw()
+
+
 }
