@@ -9,6 +9,7 @@ import { Ranks } from './Ranks.js'
 import { Suits } from './Suits.js'
 import { PlayingCard } from './PlayingCard.js'
 import { Player } from './Player.js'
+import { Deck } from './Deck.js'
 
 /**
  * Represents a game.
@@ -17,11 +18,7 @@ import { Player } from './Player.js'
  */
 export class Game {
 
-    static dealerWinsMessage = "\nDealer wins!\n"
-    static playerWinsMessage = "\nPlayer wins!\n"
-    static tieMessage = "\nIt's a tie!\n"
-
-    constructor(_player, _dealer, deck) {
+    constructor(_player, _dealer, _deck) {
         this.player = _player
         this.dealer = _dealer
         this.winner = ""
@@ -29,22 +26,24 @@ export class Game {
 
         this.resultStringPlayer = "Player #" + this.player.playerNumber + ": "
         this.resultStringDealer = "Dealer" + ": "
-        let lastPlayerScore = 1000
         
-        PlayerTurn()
+        this.dealer.ResetHand()
+        this.player.ResetHand()
+        
+        this.PlayerTurn()
 
         if (this.winner !== "") {
-            DisplayGameResult()
+            this.DisplayGameResult()
         }
         else {
-            DealerTurn()
+            this.DealerTurn()
         }
-    
         
+        this.DisplayGameResult()
     }
 
     PlayerTurn() {
-        this.player.Draw(deck)
+        this.player.Draw(this.deck)
         if (this.winner === "") {
             if (this.player.totalScore === 21) {
                 this.winner = "player"
@@ -55,62 +54,50 @@ export class Game {
             else if (this.player.totalScore > 21) {
                 this.winner = "dealer"
             }
-            else if (this.player.totalScore < this.player.stayPutScore {
-                PlayerTurn()
+            else if (this.player.totalScore < this.player.stayPutScore) {
+                this.PlayerTurn()
             }
+            //this.DisplayGameResult()
         }
     }
 
     DealerTurn() {
-        this.dealer.Draw(deck)
+        this.dealer.Draw(this.deck)
         if (this.winner === "") {
-            if (this.player.totalScore === 21) {
-                this.winner = "player"
-            }
-            else if (this.player.hand.length === 5 && this.player.totalScore <= 21) {
-                this.winner = "player"
-            }
-            else if (this.player.totalScore > 21) {
+            if (this.dealer.totalScore === 21) {
                 this.winner = "dealer"
             }
-            else if (this.player.totalScore < this.player.stayPutScore {
-                PlayerTurn()
+            else if (this.dealer.hand.length === 5 && this.dealer.totalScore <= 21) {
+                this.winner = "dealer"
             }
+            else if (this.dealer.totalScore > 21) {
+                this.winner = "player"
+            }
+            else if  (this.dealer.totalScore >= this.player.totalScore){
+                this.winner = "dealer"
+            }
+            else if (this.dealer.totalScore < this.player.totalScore) {
+                this.DealerTurn()
+            }
+            //this.DisplayGameResult()
         }
     }
 
-
-    
-    
-  
-    NewDraw(player, resultString, lastPlayerScore)
-    
-    // Dealers's turn
-    resultString = "Dealer" + ": "
-    NewDraw(dealer, resultString, lastPlayerScore)
-
-    if (dealer.totalScore <= 21) {
-      if (player.totalScore > 21) {
-        console.log(dealerWinsMessage)
-      }
-      else if (dealer.totalScore > player.totalScore) {
-        console.log(dealerWinsMessage)
-      }
-      else if (dealer.totalScore === player.totalScore) {
-        console.log(tieMessage)
-      }
+    DisplayGameResult() {
+        if (this.winner === "player") {
+            console.log(this.resultStringPlayer + this.player.PrintHand())
+            console.log(this.resultStringDealer + this.dealer.PrintHand())
+            console.log("\nPlayer wins!\n")
+        }
+        else if (this.winner === "dealer") {
+            console.log(this.resultStringPlayer + this.player.PrintHand())
+            console.log(this.resultStringDealer + this.dealer.PrintHand())
+            console.log("\nDealer wins!\n")
+        }
+        else {
+            console.log(this.resultStringPlayer + this.player.PrintHand())
+            console.log(this.resultStringDealer + this.dealer.PrintHand())
+            console.log("\nDealer wins!\n")
+        }
     }
-    if (player.totalScore <= 21) {
-      if (dealer.totalScore > 21) {
-        console.log(playerWinsMessage)
-      }
-      else if (player.totalScore > dealer.totalScore) {
-        console.log(playerWinsMessage)
-      }
-    }
-    if (player.totalScore > 21 && dealer.totalScore > 21) {
-      
-    }
-  
-    dealer.ResetHand()
 }

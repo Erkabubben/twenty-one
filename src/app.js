@@ -39,38 +39,20 @@ try {
 const deck = Deck.create()
 Deck.shuffle(deck)
 
-let playersAmount = 1
+// Retrieve command line arguments
+let playersAmount = 3
 if (process.argv.length > 2) playersAmount = parseInt(process.argv[2])
 
-
 const players = []
-players.push(new Player(0))  // Add dealer as player 0
+
+// Add dealer as player 0
+players.push(new Player(0))
 const dealer = players[0];
 
 // Add other players to game
 for (let index = 0; index < playersAmount; index++) {
   const element = players[index];
   players.push(new Player(index))
-}
-
-let currentPlayer = 1
-
-function NewDraw(player, resultString, lastPlayerScore) {
-  if (lastPlayerScore !== 21) {
-    player.Draw(deck)
-  }
-  if (player.totalScore > 21 || player.totalScore > player.stayPutScore 
-    || player.totalScore > lastPlayerScore) {
-    if (lastPlayerScore === 21) {
-      resultString += "-"
-    }
-    else {
-      resultString += player.PrintHand()
-    }
-    lastPlayerScore = player.totalScore
-    console.log(resultString)
-  }
-  else NewDraw(player, resultString, lastPlayerScore)
 }
 
 // Player's turn
