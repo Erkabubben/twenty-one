@@ -38,7 +38,9 @@ try {
 const deck = Deck.create()
 Deck.shuffle(deck)
 
-const playersAmount = 10
+let playersAmount = 1
+if (process.argv.length > 2) playersAmount = parseInt(process.argv[2])
+
 
 const players = []
 players.push(new Player())  // Add dealer as player 0
@@ -73,6 +75,10 @@ function NewDraw(player, resultString, lastPlayerScore) {
 // Player's turn
 for (let index = 1; index < playersAmount + 1; index++) {
   const player = players[index];
+  
+}
+
+
   let resultString = "Player #" + index + ": "
   let lastPlayerScore = 1000
 
@@ -82,16 +88,31 @@ for (let index = 1; index < playersAmount + 1; index++) {
   resultString = "Dealer" + ": "
   NewDraw(dealer, resultString, lastPlayerScore)
 
-  if (dealer.totalScore <= 21 && dealer.totalScore > player.totalScore )
-  {
-    console.log("Dealer wins!")
+  const dealerWinsMessage = "\nDealer wins!\n"
+  const playerWinsMessage = "\nPlayer wins!\n"
+  const tieMessage = "\nIt's a tie!\n"
+
+  if (dealer.totalScore <= 21) {
+    if (player.totalScore > 21) {
+      console.log(dealerWinsMessage)
+    }
+    else if (dealer.totalScore > player.totalScore) {
+      console.log(dealerWinsMessage)
+    }
+    else if (dealer.totalScore === player.totalScore) {
+      console.log(tieMessage)
+    }
   }
-  else if (player.totalScore <= 21 && player.totalScore > dealer.totalScore ) {
-    console.log("Player wins!")
+  if (player.totalScore <= 21) {
+    if (dealer.totalScore > 21) {
+      console.log(playerWinsMessage)
+    }
+    else if (player.totalScore > dealer.totalScore) {
+      console.log(playerWinsMessage)
+    }
   }
-  else {
-    console.log("It's a tie!")
+  if (player.totalScore > 21 && dealer.totalScore > 21) {
+    
   }
 
   dealer.ResetHand()
-}
