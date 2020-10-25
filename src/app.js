@@ -11,6 +11,7 @@
 
 import { Deck } from './Deck.js'
 import { Player } from './Player.js'
+import { Game } from './Game.js'
 
 try {
   // Create 52 playing cards and...
@@ -43,13 +44,13 @@ if (process.argv.length > 2) playersAmount = parseInt(process.argv[2])
 
 
 const players = []
-players.push(new Player())  // Add dealer as player 0
+players.push(new Player(0))  // Add dealer as player 0
 const dealer = players[0];
 
 // Add other players to game
 for (let index = 0; index < playersAmount; index++) {
   const element = players[index];
-  players.push(new Player())
+  players.push(new Player(index))
 }
 
 let currentPlayer = 1
@@ -75,44 +76,8 @@ function NewDraw(player, resultString, lastPlayerScore) {
 // Player's turn
 for (let index = 1; index < playersAmount + 1; index++) {
   const player = players[index];
-  
+  let currentGame = new Game(player, dealer, deck)
 }
 
 
-  let resultString = "Player #" + index + ": "
-  let lastPlayerScore = 1000
 
-  NewDraw(player, resultString, lastPlayerScore)
-  
-  // Dealers's turn
-  resultString = "Dealer" + ": "
-  NewDraw(dealer, resultString, lastPlayerScore)
-
-  const dealerWinsMessage = "\nDealer wins!\n"
-  const playerWinsMessage = "\nPlayer wins!\n"
-  const tieMessage = "\nIt's a tie!\n"
-
-  if (dealer.totalScore <= 21) {
-    if (player.totalScore > 21) {
-      console.log(dealerWinsMessage)
-    }
-    else if (dealer.totalScore > player.totalScore) {
-      console.log(dealerWinsMessage)
-    }
-    else if (dealer.totalScore === player.totalScore) {
-      console.log(tieMessage)
-    }
-  }
-  if (player.totalScore <= 21) {
-    if (dealer.totalScore > 21) {
-      console.log(playerWinsMessage)
-    }
-    else if (player.totalScore > dealer.totalScore) {
-      console.log(playerWinsMessage)
-    }
-  }
-  if (player.totalScore > 21 && dealer.totalScore > 21) {
-    
-  }
-
-  dealer.ResetHand()

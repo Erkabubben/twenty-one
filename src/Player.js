@@ -16,7 +16,8 @@ import { PlayingCard } from './PlayingCard.js'
  */
 export class Player {
 
-    constructor() {
+    constructor(_playerNumber) {
+        this.playerNumber = _playerNumber
         this.hand = []
         this.totalScore = 0
         this.stayPutScore = 8 + Math.floor(Math.random() * 11)
