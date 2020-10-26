@@ -24,6 +24,9 @@ export class Player {
         this.stayPutScore = 8 + Math.floor(Math.random() * 11)
     }
 
+    /**
+     * Recalculates the player's total score (done after every new card draw.)
+     */
     CalculateTotalScore() {
 
         let testScore1 = 0
@@ -54,6 +57,11 @@ export class Player {
         }
     }
 
+    /**
+     * A single card draw - deck will be reshuffled if there is only one card left.
+     * 
+     * @param {Game} game - The current game.
+     */
     Draw(game) {
         if (Deck.deck.length === 1) {
             game.ShuffleDeck()
@@ -63,6 +71,11 @@ export class Player {
         this.CalculateTotalScore()
     }
 
+    /**
+     * Prints out the player's hand to the terminal - done at the end of every game.
+     * 
+     * @returns {string} A string showing the player's hand and total score.
+     */
     PrintHand() {
         let printString = ""
         this.hand.forEach(element => {
@@ -72,6 +85,12 @@ export class Player {
         return printString
     }
 
+    /** 
+     * Throws all the player's cards to the usedCardPile - done at the end of every game
+     * for both player and dealer.
+     * 
+     * @param {Game} game - The current game.
+     */
     ResetHand(game) {
         this.hand.forEach(element => {
             Deck.usedCardsPile.push(element)

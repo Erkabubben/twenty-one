@@ -7,8 +7,6 @@
  * @version 1.0.0
  */
 
-// TODO: Replace the code below with your own game logic.
-
 import { Deck } from './Deck.js'
 import { Player } from './Player.js'
 import { Game } from './Game.js'
@@ -36,13 +34,21 @@ try {
   console.error(e.message)
 }
 
+// Create deck and used card pile
 Deck.deck = Deck.create()
 Deck.usedCardsPile = []
 Deck.shuffle(Deck.deck)
 
 // Retrieve command line arguments
 let playersAmount = 3
-if (process.argv.length > 2) playersAmount = parseInt(process.argv[2])
+if (process.argv.length > 2) {
+  if (!Number.isInteger(parseInt(process.argv[2])) || !((parseInt(process.argv[2]) < 8 && parseInt(process.argv[2]) > 0)
+  || (parseInt(process.argv[2]) === 20 || parseInt(process.argv[2]) === 50))) {
+    process.exitCode = 26;
+  }
+}
+
+playersAmount = parseInt(process.argv[2])
 
 const players = []
 
@@ -63,5 +69,4 @@ for (let index = 1; index < playersAmount + 1; index++) {
   currentGame.Start()
 }
 
-
-
+process.exitCode = 0;

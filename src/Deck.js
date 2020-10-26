@@ -1,8 +1,9 @@
 /**
- * Module for the type PlayingCard.
+ * Module for the type Deck.
  *
  * @author Johan Leitet <johan.leitet@lnu.se>
  * @author Mats Loock <mats.loock@lnu.se>
+ * @author Erik Lindholm <elimk06@student.lnu.se>
  * @version 1.0.0
  */
 
@@ -18,6 +19,7 @@ import { PlayingCard } from './PlayingCard.js'
 export class Deck {
   static deck;
   static usedCardsPile;
+
   /**
    * Creates an array of 52 playing cards representing a deck.
    *

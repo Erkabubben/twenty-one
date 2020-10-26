@@ -12,27 +12,32 @@ import { Player } from './Player.js'
 import { Deck } from './Deck.js'
 
 /**
- * Represents a game.
+ * Represents a player versus dealer game - a separate game is initiated for every player
+ * present. The card stack remains the same, and is re-shuffled when necessary.
  *
  * @class
  */
 export class Game {
-
-    constructor(_player, _dealer, _deck, _usedCardsPile) {
+    /**
+    * @param {Player} player - The player currently drawing against the dealer.
+    * @param {Player} dealer - The dealer.
+    */
+    constructor(_player, _dealer) {
         this.player = _player
         this.dealer = _dealer
-        this.winner = ""
-        this.deck = _deck
-        this.usedCardsPile = _usedCardsPile;
+        this._winner = ""
 
         this.resultStringPlayer = "Player #" + this.player.playerNumber + ": "
         this.resultStringDealer = "Dealer" + ": "
     }
 
+    /**
+     * Starts the game round and presents the result.
+     */
     Start() {
         this.PlayerTurn()
 
-        if (this.winner !== "") {
+        if (this._winner !== "") {
             this.DisplayGameResult()
         }
         else {
@@ -44,21 +49,26 @@ export class Game {
         this.dealer.ResetHand(this)
         this.player.ResetHand(this)
         
-        console.log ("deck size: " + Deck.deck.length + ", usedCardsPile: " + Deck.usedCardsPile.length)
-        console.log ("-----------------------")
+        /* Un-comment the line below to display deck sizes after every game */
+        //console.log ("deck.length: " + Deck.deck.length + ", usedCardsPile.length: " + Deck.usedCardsPile.length)
+
+        console.log ("--------------------------------------------------------------------------------\n")
     }
 
+    /**
+     * The player's turn to draw cards.
+     */
     PlayerTurn() {
         this.player.Draw(this)
-        if (this.winner === "") {
+        if (this._winner === "") {
             if (this.player.totalScore === 21) {
-                this.winner = "player"
+                this._winner = "player"
             }
             else if (this.player.hand.length === 5 && this.player.totalScore <= 21) {
-                this.winner = "player"
+                this._winner = "player"
             }
             else if (this.player.totalScore > 21) {
-                this.winner = "dealer"
+                this._winner = "dealer"
             }
             else if (this.player.totalScore < this.player.stayPutScore) {
                 this.PlayerTurn()
@@ -66,20 +76,23 @@ export class Game {
         }
     }
 
+    /**
+     * The dealer's turn to draw cards.
+     */
     DealerTurn() {
         this.dealer.Draw(this)
-        if (this.winner === "") {
+        if (this._winner === "") {
             if (this.dealer.totalScore === 21) {
-                this.winner = "dealer"
+                this._winner = "dealer"
             }
             else if (this.dealer.hand.length === 5 && this.dealer.totalScore <= 21) {
-                this.winner = "dealer"
+                this._winner = "dealer"
             }
             else if (this.dealer.totalScore > 21) {
-                this.winner = "player"
+                this._winner = "player"
             }
             else if  (this.dealer.totalScore >= this.player.totalScore){
-                this.winner = "dealer"
+                this._winner = "dealer"
             }
             else if (this.dealer.totalScore < this.player.totalScore) {
                 this.DealerTurn()
@@ -87,13 +100,16 @@ export class Game {
         }
     }
 
+    /**
+     * Prints the game results to the terminal - done at the end of every game.
+     */
     DisplayGameResult() {
-        if (this.winner === "player") {
+        if (this._winner === "player") {
             console.log(this.resultStringPlayer + this.player.PrintHand())
             console.log(this.resultStringDealer + this.dealer.PrintHand())
             console.log("\nPlayer wins!\n")
         }
-        else if (this.winner === "dealer") {
+        else if (this._winner === "dealer") {
             console.log(this.resultStringPlayer + this.player.PrintHand())
             console.log(this.resultStringDealer + this.dealer.PrintHand())
             console.log("\nDealer wins!\n")
@@ -105,13 +121,15 @@ export class Game {
         }
     }
 
+    /**
+     * Method called by player class to reshuffle the deck.
+     */ 
     ShuffleDeck() {
         Deck.usedCardsPile.forEach(element => {
             Deck.deck.push(element)
         });
         Deck.shuffle(Deck.deck)
         Deck.usedCardsPile.splice(0, Deck.usedCardsPile.length)
-        //console.log ("\n--- Deck is re-shuffled... ---\n")
-        //console.log ("new deck size: " + Deck.deck.length + ", usedCardsPile: " + Deck.usedCardsPile.length)
+        console.log ("\n--- Deck is re-shuffled ---\n")
     }
 }
