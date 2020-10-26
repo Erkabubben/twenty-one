@@ -27,8 +27,6 @@ export class Game {
 
         this.resultStringPlayer = "Player #" + this.player.playerNumber + ": "
         this.resultStringDealer = "Dealer" + ": "
-        
-
     }
 
     Start() {
@@ -46,7 +44,7 @@ export class Game {
         this.dealer.ResetHand(this)
         this.player.ResetHand(this)
         
-        console.log ("deck size: " + this.deck.length + ", usedCardsPile: " + this.usedCardsPile.length)
+        console.log ("deck size: " + Deck.deck.length + ", usedCardsPile: " + Deck.usedCardsPile.length)
         console.log ("-----------------------")
     }
 
@@ -65,7 +63,6 @@ export class Game {
             else if (this.player.totalScore < this.player.stayPutScore) {
                 this.PlayerTurn()
             }
-            //this.DisplayGameResult()
         }
     }
 
@@ -87,7 +84,6 @@ export class Game {
             else if (this.dealer.totalScore < this.player.totalScore) {
                 this.DealerTurn()
             }
-            //this.DisplayGameResult()
         }
     }
 
@@ -110,10 +106,12 @@ export class Game {
     }
 
     ShuffleDeck() {
-        this.usedCardsPile.push(this.deck[0])
-        Deck.shuffle(this.usedCardsPile)
-        this.deck = this.usedCardsPile
-        this.usedCardsPile = []
-        console.log ("\n--- Deck is re-shuffled... ---\n")
+        Deck.usedCardsPile.forEach(element => {
+            Deck.deck.push(element)
+        });
+        Deck.shuffle(Deck.deck)
+        Deck.usedCardsPile.splice(0, Deck.usedCardsPile.length)
+        //console.log ("\n--- Deck is re-shuffled... ---\n")
+        //console.log ("new deck size: " + Deck.deck.length + ", usedCardsPile: " + Deck.usedCardsPile.length)
     }
 }

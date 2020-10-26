@@ -36,15 +36,15 @@ try {
   console.error(e.message)
 }
 
-let deck = Deck.create()
-Deck.shuffle(deck)
+Deck.deck = Deck.create()
+Deck.usedCardsPile = []
+Deck.shuffle(Deck.deck)
 
 // Retrieve command line arguments
 let playersAmount = 3
 if (process.argv.length > 2) playersAmount = parseInt(process.argv[2])
 
 const players = []
-let usedCardsPile = []
 
 // Add dealer as player 0
 players.push(new Player(0))
@@ -59,7 +59,7 @@ for (let index = 0; index < playersAmount; index++) {
 // Player's turn
 for (let index = 1; index < playersAmount + 1; index++) {
   const player = players[index];
-  let currentGame = new Game(player, dealer, deck, usedCardsPile)
+  let currentGame = new Game(player, dealer)
   currentGame.Start()
 }
 

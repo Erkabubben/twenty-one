@@ -16,6 +16,8 @@ import { PlayingCard } from './PlayingCard.js'
  * @class
  */
 export class Deck {
+  static deck;
+  static usedCardsPile;
   /**
    * Creates an array of 52 playing cards representing a deck.
    *

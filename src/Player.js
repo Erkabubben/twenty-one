@@ -28,18 +28,20 @@ export class Player {
 
         let testScore1 = 0
         let testScore2 = 0
-        this.hand.forEach(element => {
-            testScore1 += element.valueOf()
-        })
-
-        let countedAce = false;
-        this.hand.forEach(element => {
-            if (element.valueOf() === 1 && !countedAce) {
-                countedAce = true
-                testScore2 += 14
-            }
-            else testScore2 += element.valueOf()
-        })
+        if (this.hand.length > 0) {
+            this.hand.forEach(element => {
+                testScore1 += element.valueOf()
+            })
+    
+            let countedAce = false;
+            this.hand.forEach(element => {
+                if (element.valueOf() === 1 && !countedAce) {
+                    countedAce = true
+                    testScore2 += 14
+                }
+                else testScore2 += element.valueOf()
+            })
+        }
 
         if (testScore1 > 21) {
             this.totalScore = testScore2
@@ -53,10 +55,10 @@ export class Player {
     }
 
     Draw(game) {
-        if (game.deck.length === 1) {
+        if (Deck.deck.length === 1) {
             game.ShuffleDeck()
         }
-        let newCard = game.deck.splice(0, 1)
+        let newCard = Deck.deck.splice(0, 1)
         this.hand.push(newCard[0])
         this.CalculateTotalScore()
     }
@@ -72,9 +74,9 @@ export class Player {
 
     ResetHand(game) {
         this.hand.forEach(element => {
-            game.usedCardsPile.push(element)
+            Deck.usedCardsPile.push(element)
         });
-        this.hand = []
+        this.hand.splice(0, this.hand.length)
         this.totalScore = 0
     }
 }
