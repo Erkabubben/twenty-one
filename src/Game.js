@@ -125,11 +125,15 @@ export class Game {
      * Method called by player class to reshuffle the deck.
      */ 
     ShuffleDeck() {
+        try {
         Deck.usedCardsPile.forEach(element => {
             Deck.deck.push(element)
         });
         Deck.shuffle(Deck.deck)
         Deck.usedCardsPile.splice(0, Deck.usedCardsPile.length)
         console.log ("\n--- Deck is re-shuffled ---\n")
+        } catch (e) {
+            process.exitCode = 27
+        }
     }
 }

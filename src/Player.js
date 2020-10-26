@@ -9,6 +9,7 @@ import { Ranks } from './Ranks.js'
 import { Suits } from './Suits.js'
 import { PlayingCard } from './PlayingCard.js'
 import { Deck } from './Deck.js'
+import { Game } from './Game.js'
 
 /**
  * Represents a player.
