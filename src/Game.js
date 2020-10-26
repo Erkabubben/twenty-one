@@ -18,18 +18,20 @@ import { Deck } from './Deck.js'
  */
 export class Game {
 
-    constructor(_player, _dealer, _deck) {
+    constructor(_player, _dealer, _deck, _usedCardsPile) {
         this.player = _player
         this.dealer = _dealer
         this.winner = ""
         this.deck = _deck
+        this.usedCardsPile = _usedCardsPile;
 
         this.resultStringPlayer = "Player #" + this.player.playerNumber + ": "
         this.resultStringDealer = "Dealer" + ": "
         
-        this.dealer.ResetHand()
-        this.player.ResetHand()
-        
+
+    }
+
+    Start() {
         this.PlayerTurn()
 
         if (this.winner !== "") {
@@ -40,10 +42,16 @@ export class Game {
         }
         
         this.DisplayGameResult()
+
+        this.dealer.ResetHand(this)
+        this.player.ResetHand(this)
+        
+        console.log ("deck size: " + this.deck.length + ", usedCardsPile: " + this.usedCardsPile.length)
+        console.log ("-----------------------")
     }
 
     PlayerTurn() {
-        this.player.Draw(this.deck)
+        this.player.Draw(this)
         if (this.winner === "") {
             if (this.player.totalScore === 21) {
                 this.winner = "player"
@@ -62,7 +70,7 @@ export class Game {
     }
 
     DealerTurn() {
-        this.dealer.Draw(this.deck)
+        this.dealer.Draw(this)
         if (this.winner === "") {
             if (this.dealer.totalScore === 21) {
                 this.winner = "dealer"
@@ -99,5 +107,13 @@ export class Game {
             console.log(this.resultStringDealer + this.dealer.PrintHand())
             console.log("\nDealer wins!\n")
         }
+    }
+
+    ShuffleDeck() {
+        this.usedCardsPile.push(this.deck[0])
+        Deck.shuffle(this.usedCardsPile)
+        this.deck = this.usedCardsPile
+        this.usedCardsPile = []
+        console.log ("\n--- Deck is re-shuffled... ---\n")
     }
 }

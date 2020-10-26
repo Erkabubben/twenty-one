@@ -8,6 +8,7 @@
 import { Ranks } from './Ranks.js'
 import { Suits } from './Suits.js'
 import { PlayingCard } from './PlayingCard.js'
+import { Deck } from './Deck.js'
 
 /**
  * Represents a player.
@@ -51,8 +52,11 @@ export class Player {
         }
     }
 
-    Draw(deck) {
-        let newCard = deck.splice(0, 1)
+    Draw(game) {
+        if (game.deck.length === 1) {
+            game.ShuffleDeck()
+        }
+        let newCard = game.deck.splice(0, 1)
         this.hand.push(newCard[0])
         this.CalculateTotalScore()
     }
@@ -66,7 +70,10 @@ export class Player {
         return printString
     }
 
-    ResetHand() {
+    ResetHand(game) {
+        this.hand.forEach(element => {
+            game.usedCardsPile.push(element)
+        });
         this.hand = []
         this.totalScore = 0
     }
