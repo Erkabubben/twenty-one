@@ -23,7 +23,7 @@ let playersAmount = 0
 if (process.argv.length > 2) {
   const arg = parseInt(process.argv[2])
   try {
-    if (Number.isNan(arg)) {
+    if (Number.isNaN(arg)) {
       throw new Error('Command line argument must be a number in the range 1-7, 20 or 50.')
     } else if (arg > 7 || arg < 1) {
       if (arg !== 20 && arg !== 50) {
@@ -47,6 +47,11 @@ const dealer = players[0]
 // Add other players to game
 for (let index = 0; index < playersAmount; index++) {
   players.push(new Player(index))
+}
+
+// All players draw a card
+for (let index = 1; index < playersAmount + 1; index++) {
+  players[index].Draw()
 }
 
 // Player's turn

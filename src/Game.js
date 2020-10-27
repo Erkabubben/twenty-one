@@ -6,7 +6,6 @@
  */
 
 import { Player } from './Player.js'
-import { Deck } from './Deck.js'
 
 /**
  * Represents a player versus dealer game - a separate game is initiated for every player
@@ -56,7 +55,7 @@ export class Game {
    * The player's turn to draw cards.
    */
   PlayerTurn () {
-    this._player.Draw(this)
+    if (this._player.hand.length > 1) this._player.Draw()
     if (this._winner === '') {
       if (this._player.totalScore === 21) {
         this._winner = 'player'
@@ -65,6 +64,7 @@ export class Game {
       } else if (this._player.totalScore > 21) {
         this._winner = 'dealer'
       } else if (this._player.totalScore < this._player.stayPutScore) {
+        if (this._player.hand.length < 2) this._player.Draw()
         this.PlayerTurn()
       }
     }
@@ -74,7 +74,7 @@ export class Game {
    * The dealer's turn to draw cards.
    */
   DealerTurn () {
-    this._dealer.Draw(this)
+    this._dealer.Draw()
     if (this._winner === '') {
       if (this._dealer.totalScore === 21) {
         this._winner = 'dealer'
@@ -106,23 +106,6 @@ export class Game {
       console.log(this._resultStringPlayer + this._player.PrintHand())
       console.log(this._resultStringDealer + this._dealer.PrintHand())
       console.log('\nDealer wins!\n')
-    }
-  }
-
-  /**
-   * Method called by player class to reshuffle the deck.
-   */
-  ShuffleDeck () {
-    try {
-      Deck.usedCardsPile.forEach(element => {
-        Deck.deck.push(element)
-      })
-      Deck.shuffle(Deck.deck)
-      Deck.usedCardsPile.splice(0, Deck.usedCardsPile.length)
-      console.log('\n--- Deck is re-shuffled ---\n')
-    } catch (e) {
-      process.exitCode = 27
-      process.exit()
     }
   }
 }

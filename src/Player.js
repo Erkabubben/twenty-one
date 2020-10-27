@@ -29,7 +29,15 @@ export class Player {
     let testScore2 = 0
     if (this.hand.length > 0) {
       this.hand.forEach(element => {
-        testScore1 += element.valueOf()
+        try {
+          if (typeof element === 'undefined') {
+            throw new Error('Deck is out of cards.')
+          }
+          testScore1 += element.valueOf()
+        } catch (Error) {
+          process.exitCode = 27
+          process.exit()
+        }
       })
 
       let countedAce = false
@@ -52,16 +60,31 @@ export class Player {
 
   /**
    * A single card draw - deck will be reshuffled if there is only one card left.
-   *
-   * @param {Game} game - The current game.
    */
-  Draw (game) {
+  Draw () {
     if (Deck.deck.length === 1) {
-      game.ShuffleDeck()
+      this.ShuffleDeck()
     }
     const newCard = Deck.deck.splice(0, 1)
     this.hand.push(newCard[0])
     this.CalculateTotalScore()
+  }
+
+  /**
+   * Reshuffles the deck when necessary.
+   */
+  ShuffleDeck () {
+    try {
+      Deck.usedCardsPile.forEach(element => {
+        Deck.deck.push(element)
+      })
+      Deck.shuffle(Deck.deck)
+      Deck.usedCardsPile.splice(0, Deck.usedCardsPile.length)
+      console.log('\n--- Deck is re-shuffled ---\n')
+    } catch (e) {
+      process.exitCode = 27
+      process.exit()
+    }
   }
 
   /**
