@@ -122,6 +122,7 @@ export class Game {
       console.log('\n--- Deck is re-shuffled ---\n')
     } catch (e) {
       process.exitCode = 27
+      process.exit()
     }
   }
 }

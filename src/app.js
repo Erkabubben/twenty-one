@@ -19,6 +19,7 @@ Deck.shuffle(Deck.deck)
 // Retrieve command line arguments
 let playersAmount = 0
 
+// Checks validity of command line argument
 if (process.argv.length > 2) {
   const arg = parseInt(process.argv[2])
   try {
