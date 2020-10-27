@@ -39,6 +39,11 @@ export class Game {
       this.DisplayGameResult()
     } else {
       this.DealerTurn()
+      if (this._dealer.totalScore >= this._player.totalScore) {
+        this._winner = 'dealer'
+      } else {
+        this._winner = 'player'
+      }
       this.DisplayGameResult()
     }
 
@@ -83,9 +88,7 @@ export class Game {
         this._winner = 'dealer'
       } else if (this._dealer.totalScore > 21) {
         this._winner = 'player'
-      } else if (this._dealer.totalScore >= this._player.totalScore) {
-        this._winner = 'dealer'
-      } else if (this._dealer.totalScore < this._player.totalScore) {
+      } else if (this._dealer.totalScore < this._dealer.stayPutScore) {
         this.DealerTurn()
       }
     }
