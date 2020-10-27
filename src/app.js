@@ -17,16 +17,26 @@ Deck.usedCardsPile = []
 Deck.shuffle(Deck.deck)
 
 // Retrieve command line arguments
-let playersAmount = 3
+let playersAmount = 0
+
 if (process.argv.length > 2) {
-  if (!Number.isInteger(parseInt(process.argv[2])) || !((parseInt(process.argv[2]) < 8 && parseInt(process.argv[2]) > 0) ||
-     (parseInt(process.argv[2]) === 20 || parseInt(process.argv[2]) === 50))) {
+  const arg = parseInt(process.argv[2])
+  try {
+    if (Number.isNan(arg)) {
+      throw new Error('Command line argument must be a number in the range 1-7, 20 or 50.')
+    } else if (arg > 7 || arg < 1) {
+      if (arg !== 20 && arg !== 50) {
+        throw new Error('Command line argument must be a number in the range 1-7, 20 or 50.')
+      }
+    }
+    playersAmount = parseInt(process.argv[2])
+  } catch (Error) {
     process.exitCode = 26
+    process.exit()
   }
+} else {
+  playersAmount = 3
 }
-
-playersAmount = parseInt(process.argv[2])
-
 const players = []
 
 // Add dealer as player 0
