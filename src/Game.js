@@ -65,7 +65,7 @@ export class Game {
         this._winner = 'dealer'
       } else if (this._player.hand.length < 2) {
         this._player.Draw()
-      } else if (this._player.totalScore < this._player.stayPutScore) { 
+      } else if (this._player.totalScore < this._player.stayPutScore) {
         this.PlayerTurn()
       }
     }
